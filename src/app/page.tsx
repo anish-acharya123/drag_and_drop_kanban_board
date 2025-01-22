@@ -1,4 +1,9 @@
+import Dragdrop from "@/components/Dragdrop";
 
 export default function Home() {
-  return <div>drag and Drop Kanban board</div>;
+  return (
+    <section className="">
+      <Dragdrop />
+    </section>
+  );
 }

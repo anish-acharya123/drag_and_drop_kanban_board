@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
 import "./globals.css";
+import Title from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -20,7 +22,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${roboto.className}  antialiased`}>{children}</body>
+      <body className={`${roboto.className}  antialiased`}>
+        <div className="flex  min-h-screen text-center flex-col  ">
+          <Title />
+          <main className="flex-1  ">{children}</main>
+          <Footer />
+        </div>
+      </body>
     </html>
   );
 }
