@@ -1,17 +1,19 @@
 "use client";
 
-import { useEffect, useState } from "react";
+// import { useEffect, useState } from "react";
 import {
   DragDropContext,
   Droppable,
   Draggable,
   resetServerContext,
 } from "react-beautiful-dnd";
-import { dataProps } from "./types";
+// import { dataProps } from "./types";
 
 import { GetServerSideProps } from "next";
 import DragAndDrop from "@/lib/HandleDrag";
-import { loadDataFromLocalStorage } from "@/lib/localStorage";
+// import { loadDataFromLocalStorage } from "@/lib/localStorage";
+import { useContext, useEffect } from "react";
+import { CardContext } from "@/context/CardContext";
 
 export const getServerSideProps = async (context: GetServerSideProps) => {
   console.log(context);
@@ -22,8 +24,8 @@ export const getServerSideProps = async (context: GetServerSideProps) => {
 };
 
 export default function Dragdrop() {
-  const [data, setData] = useState<dataProps | null>(loadDataFromLocalStorage);
-
+  const { data, setData } = useContext(CardContext);
+  console.log(data);
   useEffect(() => {
     if (data) {
       localStorage.setItem("dragDropData", JSON.stringify(data));
@@ -50,9 +52,9 @@ export default function Dragdrop() {
               key={column.id}
               droppableId={column.id}
               direction="vertical"
-              isDropDisabled={false} // Disable dropping in the Done column
-              isCombineEnabled={false} // Enable combining tasks in the In Progress column
-              ignoreContainerClipping={false} // Allow overflow in the Done column
+              isDropDisabled={false}
+              isCombineEnabled={false}
+              ignoreContainerClipping={false}
             >
               {(provided, snapshot) => {
                 return (
@@ -68,9 +70,12 @@ export default function Dragdrop() {
                       transition: "background-color 0.3s ease", // Smooth transition for background color
                     }}
                   >
-                    <h1 className="text-2xl font-semibold text-white">
-                      {column.title}
-                    </h1>
+                    <div className="flex justify-between items-center px-6">
+                      <h1 className="text-2xl font-semibold text-white">
+                        {column.title}
+                      </h1>
+                      <button className="text-white  text-right border-2 p-2 px-4 scale-90 rounded-full hover:bg-yellow-500 transition-colors duration-300 hover:text-black">x</button>
+                    </div>
                     {tasksInColumn.map((task, index) => {
                       if (!task) return null;
                       return (

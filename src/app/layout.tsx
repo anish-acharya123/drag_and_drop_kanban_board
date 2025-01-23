@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
 import "./globals.css";
 import Title from "@/components/Navbar";
+import { CardProvider } from "@/context/CardContext";
 // import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
@@ -23,11 +24,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${roboto.className}  antialiased`}>
-        <div className="flex  min-h-screen text-center flex-col  ">
-          <Title />
-          <main className="flex-1  ">{children}</main>
-          {/* <Footer /> */}
-        </div>
+        <CardProvider>
+          <div className="flex  min-h-screen text-center flex-col  ">
+            <Title />
+            <main className="flex-1  ">{children}</main>
+            {/* <Footer /> */}
+          </div>
+        </CardProvider>
       </body>
     </html>
   );
