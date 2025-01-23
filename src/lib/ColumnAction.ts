@@ -25,6 +25,39 @@ export const ColumnAdd = ({
     };
 
     setData(newData);
+  } else {
+    return "Column limit reached";
   }
   return null;
 };
+
+export default function columnDelete({
+  data,
+  setData,
+  columnId,
+}: {
+  data: dataProps | null;
+  setData: Dispatch<SetStateAction<dataProps | null>>;
+  columnId: string;
+}) {
+  if (!data) return null;
+
+  const newColumns = data.columns.filter((column) => {
+    if (column.id === columnId) {
+      const deletedTasks = column.taskIds;
+      const fistColumn = data.columns[0];
+      fistColumn.taskIds.push(...deletedTasks);
+    }
+    return column.id !== columnId;
+  });
+  const newColumnOrder = data.columnOrder.filter((id) => id !== columnId);
+
+  const newData = {
+    ...data,
+    columns: newColumns,
+    columnOrder: newColumnOrder,
+  };
+
+  setData(newData);
+  return null;
+}

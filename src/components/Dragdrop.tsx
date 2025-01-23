@@ -14,6 +14,8 @@ import DragAndDrop from "@/lib/HandleDrag";
 // import { loadDataFromLocalStorage } from "@/lib/localStorage";
 import { useContext, useEffect } from "react";
 import { CardContext } from "@/context/CardContext";
+import columnDelete from "@/lib/ColumnAction";
+// import { columns } from "@/constants/constant";
 
 export const getServerSideProps = async (context: GetServerSideProps) => {
   console.log(context);
@@ -35,6 +37,14 @@ export default function Dragdrop() {
   if (!data) return null;
 
   const handleDragEnd = DragAndDrop({ data, setData });
+
+  if (data.columns.length === 0) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <h1 className="text-3xl font-semibold">No columns to show</h1>
+      </div>
+    );
+  }
 
   return (
     <DragDropContext onDragEnd={handleDragEnd}>
@@ -74,7 +84,14 @@ export default function Dragdrop() {
                       <h1 className="text-2xl font-semibold text-white">
                         {column.title}
                       </h1>
-                      <button className="text-white  text-right border-2 p-2 px-4 scale-90 rounded-full hover:bg-yellow-500 transition-colors duration-300 hover:text-black">x</button>
+                      <button
+                        onClick={() =>
+                          columnDelete({ data, setData, columnId: column.id })
+                        }
+                        className="text-white  text-right border-2 p-2 px-4 scale-90 rounded-full hover:bg-yellow-500 transition-colors duration-300 hover:text-black"
+                      >
+                        x
+                      </button>
                     </div>
                     {tasksInColumn.map((task, index) => {
                       if (!task) return null;

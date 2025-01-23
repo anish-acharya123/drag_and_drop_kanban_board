@@ -3,7 +3,7 @@ import Link from "next/link";
 export default function Title() {
   return (
     <nav>
-      <h1 className="text-4xl py-6 underline underline-offset-4 font-semibold text-yellow-700 ">
+      <h1 className="text-4xl py-4 underline underline-offset-4 font-semibold text-yellow-700 ">
         Drag and Drop Kanban Board
       </h1>
       <div className="    text-lg">

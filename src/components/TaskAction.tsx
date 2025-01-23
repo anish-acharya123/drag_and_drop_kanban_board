@@ -1,9 +1,29 @@
 "use client";
 import { CardContext } from "@/context/CardContext";
-import { ColumnAdd } from "@/lib/ColumnAction";
+import { AddNewTask, RemoveAllTask } from "@/lib/TaskAction";
 import { useContext, useState } from "react";
 
-export default function ColumnAddComponent() {
+export default function RemoveAllTaskComponent() {
+  const { data, setData } = useContext(CardContext);
+  const ButtonClicked = () => {
+    const msg = RemoveAllTask({ data, setData });
+    if (typeof msg === "string") {
+      return alert(msg);
+    }
+  };
+  return (
+    <div>
+      <button
+        onClick={() => ButtonClicked()}
+        className="bg-yellow-800 hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded"
+      >
+        Remove All Task
+      </button>
+    </div>
+  );
+}
+
+export function TaskAddComponent() {
   const [popUp, setPopUp] = useState(false);
   return (
     <div className="w-fit  px-20">
@@ -13,7 +33,7 @@ export default function ColumnAddComponent() {
           setPopUp(true);
         }}
       >
-        Add Column
+        Add New Task
       </button>
 
       {popUp && <PopUp setPopUp={setPopUp} />}
@@ -27,10 +47,10 @@ function PopUp({
   setPopUp: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   const { data, setData } = useContext(CardContext);
-  const [title, setTitle] = useState("");
+  const [desc, setDesc] = useState("");
 
   const ButtonClicked = () => {
-    const msg = ColumnAdd({ data, setData, title: title });
+    const msg = AddNewTask({ data, setData, desc: desc });
     if (typeof msg === "string") return alert(msg);
     setPopUp(false);
   };
@@ -43,7 +63,7 @@ function PopUp({
           type="text"
           placeholder="Enter Column Title"
           className="border p-2 w-full mt-4"
-          onChange={(e) => setTitle(e.target.value)}
+          onChange={(e) => setDesc(e.target.value)}
         />
         <div className="flex justify-end mt-4">
           <button
