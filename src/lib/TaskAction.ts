@@ -26,7 +26,6 @@ export function RemoveAllTask({
   } else {
     return "Nothing to Remove";
   }
-  return null;
 }
 
 export function AddNewTask({
@@ -58,5 +57,4 @@ export function AddNewTask({
   } else {
     return "Max number of Tasks reached";
   }
-  return null;
 }

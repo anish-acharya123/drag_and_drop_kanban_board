@@ -31,7 +31,7 @@ function PopUp({
 
   const ButtonClicked = () => {
     const msg = ColumnAdd({ data, setData, title: title });
-    if (typeof msg === "string") return alert(msg);
+    if (typeof msg === "string") alert(msg);
     setPopUp(false);
   };
 

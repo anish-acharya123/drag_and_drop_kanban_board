@@ -51,17 +51,18 @@ function PopUp({
 
   const ButtonClicked = () => {
     const msg = AddNewTask({ data, setData, desc: desc });
-    if (typeof msg === "string") return alert(msg);
+    if (typeof msg === "string") alert(msg);
     setPopUp(false);
   };
 
   return (
     <div className="z-50 fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
       <div className="bg-white p-8 rounded-lg">
-        <h1 className="text-2xl font-bold">Add Column</h1>
-        <input
-          type="text"
-          placeholder="Enter Column Title"
+        <h1 className="text-2xl font-bold">Add Task</h1>
+        <textarea
+          rows={4}
+          cols={40}
+          placeholder="Enter Task Desc"
           className="border p-2 w-full mt-4"
           onChange={(e) => setDesc(e.target.value)}
         />

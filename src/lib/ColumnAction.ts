@@ -28,7 +28,6 @@ export const ColumnAdd = ({
   } else {
     return "Column limit reached";
   }
-  return null;
 };
 
 export default function columnDelete({
@@ -59,5 +58,4 @@ export default function columnDelete({
   };
 
   setData(newData);
-  return null;
 }

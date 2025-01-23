@@ -1,21 +1,16 @@
 "use client";
 
-// import { useEffect, useState } from "react";
 import {
   DragDropContext,
   Droppable,
   Draggable,
   resetServerContext,
 } from "react-beautiful-dnd";
-// import { dataProps } from "./types";
-
 import { GetServerSideProps } from "next";
 import DragAndDrop from "@/lib/HandleDrag";
-// import { loadDataFromLocalStorage } from "@/lib/localStorage";
 import { useContext, useEffect } from "react";
 import { CardContext } from "@/context/CardContext";
 import columnDelete from "@/lib/ColumnAction";
-// import { columns } from "@/constants/constant";
 
 export const getServerSideProps = async (context: GetServerSideProps) => {
   console.log(context);
