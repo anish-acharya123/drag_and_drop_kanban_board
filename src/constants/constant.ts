@@ -8,29 +8,30 @@ export const tasks: taskProps = [
   {
     id: "1",
     content: "Task 1",
-    desc: "Start by reviewing the project requirements and setting up the development environment, including installing necessary dependencies and configuring the tools.",
+    desc: "Set up the development environment, install dependencies, and configure necessary tools.",
   },
   {
     id: "2",
     content: "Task 2",
-    desc: "Implement the core functionality for the user authentication module, ensuring secure login, registration, and password management processes are in place.",
+    desc: "Implement the user authentication system, including login, registration, and password management.",
   },
   {
     id: "3",
     content: "Task 3",
-    desc: "Write unit tests for the authentication module, covering various edge cases and ensuring all components are properly validated and tested for reliability.",
+    desc: "Write unit tests for the authentication system to ensure functionality and reliability.",
   },
   {
     id: "4",
     content: "Task 4",
-    desc: "Integrate the front-end interface with the backend API, ensuring smooth data flow and error handling between the two systems, and verify user interaction features.",
+    desc: "Integrate the front-end with the back-end API, ensuring smooth data flow and error handling.",
   },
   {
     id: "5",
     content: "Task 5",
-    desc: "Conduct code reviews for peers, focusing on best practices, performance improvements, and ensuring the codebase is clean, modular, and well-documented.",
+    desc: "Review peer code, checking for best practices, performance, and proper documentation.",
   },
 ];
+
 
 
 export type columnProps = {

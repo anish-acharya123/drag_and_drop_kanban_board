@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   DragDropContext,
   Droppable,
@@ -22,16 +22,16 @@ export const getServerSideProps = async (context: GetServerSideProps) => {
 };
 
 export default function Dragdrop() {
-  const [data, setData] = useState<dataProps | null>(null);
-
-  useEffect(() => {
-    setData({ tasks, columns, columnOrder });
-  }, []);
+  const [data, setData] = useState<dataProps | null>({
+    tasks,
+    columns,
+    columnOrder,
+  });
 
   if (!data) return null;
 
   const handleDragEnd = (result: DropResult) => {
-    const { destination, source, type } = result;
+    const { destination, source } = result;
 
     // If there's no destination or the item is dropped in the same position, do nothing
     if (!destination) return;
@@ -40,16 +40,6 @@ export default function Dragdrop() {
       destination.droppableId === source.droppableId &&
       destination.index === source.index
     ) {
-      return;
-    }
-
-    if (type === "COLUMN") {
-      // Handle column drag
-      const reorderedColumns = [...columnOrder];
-      const [removedColumn] = reorderedColumns.splice(source.index, 1);
-      reorderedColumns.splice(destination.index, 0, removedColumn);
-
-      setData({ ...data, columnOrder: reorderedColumns });
       return;
     }
 
@@ -94,7 +84,7 @@ export default function Dragdrop() {
 
   return (
     <DragDropContext onDragEnd={handleDragEnd}>
-      <div className="flex justify-center flow-row scale-90">
+      <div className="flex justify-center flex-row">
         {data.columnOrder.map((columnId) => {
           const column = data.columns.find((col) => col.id === columnId);
           if (!column) return null;
@@ -107,20 +97,24 @@ export default function Dragdrop() {
             <Droppable
               key={column.id}
               droppableId={column.id}
-              isDropDisabled={false}
-              isCombineEnabled={false}
-              ignoreContainerClipping={false}
               direction="vertical"
-              type="TASK"
+              isDropDisabled={false} // Disable dropping in the Done column
+              isCombineEnabled={false} // Enable combining tasks in the In Progress column
+              ignoreContainerClipping={false} // Allow overflow in the Done column
             >
               {(provided, snapshot) => {
                 return (
                   <div
                     ref={provided.innerRef}
                     {...provided.droppableProps}
-                    className={`overflow-x-scroll md:overflow-hidden rounded-md p-4 transition-colors duration-300  w-96 min-h-[40rem] h-fit m-10 bg-yellow-800 ${
-                      snapshot.isDraggingOver ? "bg-yellow-500 " : ""
+                    className={` rounded-md p-4 w-96 min-h-[40rem] m-10 ${
+                      snapshot.isDraggingOver
+                        ? "bg-yellow-500"
+                        : "bg-yellow-800"
                     }`}
+                    style={{
+                      transition: "background-color 0.3s ease", // Smooth transition for background color
+                    }}
                   >
                     <h1 className="text-2xl font-semibold text-white">
                       {column.title}
@@ -133,24 +127,30 @@ export default function Dragdrop() {
                           draggableId={task.id}
                           index={index}
                         >
-                          {(provided) => (
-                            <div
-                              ref={provided.innerRef}
-                              {...provided.draggableProps}
-                              {...provided.dragHandleProps}
-                              style={{
-                                ...provided.draggableProps.style,
-                              }}
-                              className="bg-white overflow-hidden transition-all duration-200  p-4 m-4 rounded-md shadow-md"
-                            >
-                              <h1 className=" font-semibold text-left  w-fit p-2 px-4 scale-75 border-black border-2 rounded-full">
-                                {index + 1}
-                              </h1>
-                              <p className=" font-light text-justify text">
-                                {task.desc}
-                              </p>
-                            </div>
-                          )}
+                          {(provided, snapshot) => {
+                            return (
+                              <div
+                                ref={provided.innerRef}
+                                {...provided.draggableProps}
+                                {...provided.dragHandleProps}
+                                style={{
+                                  ...provided.draggableProps.style,
+                                  // transition: "transform 0.2s ease-out", 
+                                  boxShadow: snapshot.isDragging
+                                    ? "0 4px 8px rgba(0, 0, 0, 0.3)"
+                                    : "none", 
+                                }}
+                                className="bg-white p-4 m-4 rounded-md shadow-md"
+                              >
+                                <h1 className="font-semibold text-left w-fit p-2 px-4 scale-75 border-black border-2 rounded-full">
+                                  {index + 1}
+                                </h1>
+                                <p className="font-light text-justify">
+                                  {task.desc}
+                                </p>
+                              </div>
+                            );
+                          }}
                         </Draggable>
                       );
                     })}
