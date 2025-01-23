@@ -11,7 +11,7 @@ export default function Title() {
         <Link
           href={"https://anish-acharya.com.np/"}
           target="_blank"
-          className="text-yellow-400 font-semibold underline"
+          className="text-yellow-700 font-semibold underline"
         >
           Anish Acharya
         </Link>

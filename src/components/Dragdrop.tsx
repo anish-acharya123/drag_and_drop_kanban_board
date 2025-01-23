@@ -1,17 +1,17 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   DragDropContext,
   Droppable,
   Draggable,
-  DropResult,
   resetServerContext,
 } from "react-beautiful-dnd";
-import { tasks, columnOrder, columns } from "@/constants/constant";
 import { dataProps } from "./types";
 
 import { GetServerSideProps } from "next";
+import DragAndDrop from "@/lib/HandleDrag";
+import { loadDataFromLocalStorage } from "@/lib/localStorage";
 
 export const getServerSideProps = async (context: GetServerSideProps) => {
   console.log(context);
@@ -22,65 +22,17 @@ export const getServerSideProps = async (context: GetServerSideProps) => {
 };
 
 export default function Dragdrop() {
-  const [data, setData] = useState<dataProps | null>({
-    tasks,
-    columns,
-    columnOrder,
-  });
+  const [data, setData] = useState<dataProps | null>(loadDataFromLocalStorage);
+
+  useEffect(() => {
+    if (data) {
+      localStorage.setItem("dragDropData", JSON.stringify(data));
+    }
+  }, [data]);
 
   if (!data) return null;
 
-  const handleDragEnd = (result: DropResult) => {
-    const { destination, source } = result;
-
-    // If there's no destination or the item is dropped in the same position, do nothing
-    if (!destination) return;
-
-    if (
-      destination.droppableId === source.droppableId &&
-      destination.index === source.index
-    ) {
-      return;
-    }
-
-    const start = data.columns.find((col) => col.id === source.droppableId);
-    const finish = data.columns.find(
-      (col) => col.id === destination.droppableId
-    );
-
-    if (!start || !finish) return;
-
-    // Dragging within the same column
-    if (start === finish) {
-      const updatedTaskIds = Array.from(start.taskIds);
-      const [movedTask] = updatedTaskIds.splice(source.index, 1); // Remove task from the source index
-      updatedTaskIds.splice(destination.index, 0, movedTask); // Add task to the destination index
-
-      const updatedColumn = { ...start, taskIds: updatedTaskIds };
-
-      const newColumns = data.columns.map((col) =>
-        col.id === start.id ? updatedColumn : col
-      );
-
-      setData({ ...data, columns: newColumns });
-      return;
-    }
-
-    // Moving between different columns
-    const startTaskIds = Array.from(start.taskIds);
-    const [movedTask] = startTaskIds.splice(source.index, 1); // Remove task from the source column
-
-    const finishTaskIds = Array.from(finish.taskIds);
-    finishTaskIds.splice(destination.index, 0, movedTask); // Add task to the destination column
-
-    const updatedColumns = data.columns.map((col) => {
-      if (col.id === start.id) return { ...col, taskIds: startTaskIds };
-      if (col.id === finish.id) return { ...col, taskIds: finishTaskIds };
-      return col;
-    });
-
-    setData({ ...data, columns: updatedColumns });
-  };
+  const handleDragEnd = DragAndDrop({ data, setData });
 
   return (
     <DragDropContext onDragEnd={handleDragEnd}>
@@ -135,10 +87,10 @@ export default function Dragdrop() {
                                 {...provided.dragHandleProps}
                                 style={{
                                   ...provided.draggableProps.style,
-                                  // transition: "transform 0.2s ease-out", 
+                                  // transition: "transform 0.2s ease-out",
                                   boxShadow: snapshot.isDragging
                                     ? "0 4px 8px rgba(0, 0, 0, 0.3)"
-                                    : "none", 
+                                    : "none",
                                 }}
                                 className="bg-white p-4 m-4 rounded-md shadow-md"
                               >
