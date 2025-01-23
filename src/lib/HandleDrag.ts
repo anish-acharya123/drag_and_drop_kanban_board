@@ -22,6 +22,17 @@ export default function DragAndDrop({
       return;
     }
 
+    // if (type === "COLUMN") {
+    //   //dragging the columns
+    //   const reorderedColumns = [...data.columnOrder];
+    //   const [removedItem] = reorderedColumns.splice(source.index, 1);
+    //   reorderedColumns.splice(destination.index, 0, removedItem);
+
+    //   setData({ ...data, columnOrder: reorderedColumns });
+
+    //   return;
+    // }
+
     const start = data.columns.find((col) => col.id === source.droppableId);
     const finish = data.columns.find(
       (col) => col.id === destination.droppableId
