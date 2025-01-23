@@ -1,5 +1,6 @@
-import { columnOrder, columns, tasks } from "@/constants/constant";
+"use client";
 
+import { columnOrder, columns, tasks } from "@/constants/constant";
 
 export const loadDataFromLocalStorage = () => {
   const savedData = localStorage.getItem("dragDropData");
