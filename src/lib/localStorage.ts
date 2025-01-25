@@ -6,7 +6,6 @@ export const loadDataFromLocalStorage = () => {
     if (savedData) {
       return JSON.parse(savedData);
     }
-  } else {
-    return { tasks, columns, columnOrder };
   }
+  return { tasks, columns, columnOrder }; // Default data
 };

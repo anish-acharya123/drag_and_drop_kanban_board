@@ -1,7 +1,7 @@
-"use client"
+"use client";
 import { dataProps } from "@/components/types";
 import { loadDataFromLocalStorage } from "@/lib/localStorage";
-import { createContext, useState } from "react";
+import { createContext, useState, useEffect } from "react";
 
 type ContextProps = {
   data: dataProps | null;
@@ -11,8 +11,12 @@ type ContextProps = {
 export const CardContext = createContext<ContextProps>({} as ContextProps);
 
 export const CardProvider = ({ children }: { children: React.ReactNode }) => {
-  const [data, setData] = useState<dataProps | null>(loadDataFromLocalStorage);
-  console.log(data);
+  const [data, setData] = useState<dataProps | null>(null);
+
+  useEffect(() => {
+    const initialData = loadDataFromLocalStorage();
+    setData(initialData); // Set data after client-side load
+  }, []);
 
   return (
     <CardContext.Provider value={{ data, setData }}>

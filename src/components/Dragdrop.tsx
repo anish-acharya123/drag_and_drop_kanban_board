@@ -23,8 +23,8 @@ export const getServerSideProps = async (context: GetServerSideProps) => {
 export default function Dragdrop() {
   const { data, setData } = useContext(CardContext);
   useEffect(() => {
-      if (data) {
-        localStorage.setItem("dragDropData", JSON.stringify(data));
+    if (data) {
+      localStorage.setItem("dragDropData", JSON.stringify(data));
     }
   }, [data]);
 
