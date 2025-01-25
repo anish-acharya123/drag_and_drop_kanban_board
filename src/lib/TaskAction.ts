@@ -38,7 +38,7 @@ export function AddNewTask({
   desc: string;
 }) {
   if (!data) return null;
-  if (data.tasks.length < 5) {
+  if (data.tasks.length < 6) {
     const newTask = {
       id: (data.tasks.length + 1).toString(),
       desc: desc,
