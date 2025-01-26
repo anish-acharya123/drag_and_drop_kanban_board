@@ -6,7 +6,7 @@ A Kanban drag-and-drop board is a visual project management tool that helps team
 
 ## Screenshots
 
-![Mainpage]![alt text](/public/ss.png)
+![Mainpage](/public/ss.png)
 
 ## Table of Content
 
@@ -25,6 +25,11 @@ A Kanban drag-and-drop board is a visual project management tool that helps team
 - **Remove All Tasks**: Provides an option to clear all tasks from the board.
 - **Add New Task**: Enables users to add new tasks to the board.
 - **Local Storage Integration**: Automatically save all columns and tasks locally, ensuring that the board state persists even after the page is refreshed.
+- **Keyboard Accessible Kanban Board**: Users can navigate and interact with the cards using a keyboard:
+   - Use **Tab** to highlight a card.
+   - Use **Arrow Keys** to move the card within the same column or to a different column.
+   - Press **Space Bar** to pick up or place the card.
+  
 
 ## Live Demo
 
